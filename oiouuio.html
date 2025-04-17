@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Docs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    #realmath {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+    #hintBtn {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Secret Hint Button -->
+  <button id="hintBtn" onclick="reveal()">Hint</button>
+
+  <!-- Hidden Google Docs Clone -->
+  <div id="realmath">
+    <iframe src="https://unblocked-games.s3.amazonaws.com/index.html" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function setTabCloak(title, iconUrl) {
+      document.title = title;
+
+      const links = document.querySelectorAll("link[rel*='icon']");
+      links.forEach(link => link.parentNode.removeChild(link));
+
+      const newFavicon = document.createElement("link");
+      newFavicon.rel = "icon";
+      newFavicon.type = "image/png";
+      newFavicon.href = iconUrl;
+      document.head.appendChild(newFavicon);
+    }
+
+    function enableAntiClose() {
+      window.addEventListener('beforeunload', function(event) {
+        const message = 'Are you sure you want to leave?';
+        event.returnValue = message;
+        return message;
+      });
+    }
+
+    function enableKioskMode() {
+      // Fullscreen
+      const requestFullscreen = document.documentElement.requestFullscreen 
+        || document.documentElement.mozRequestFullScreen 
+        || document.documentElement.webkitRequestFullscreen 
+        || document.documentElement.msRequestFullscreen;
+      if (requestFullscreen) requestFullscreen.call(document.documentElement);
+
+      // Disable context menu and dev tools
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      document.addEventListener('keydown', e => {
+        if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
+          e.preventDefault();
+        }
+      });
+    }
+
+    function reveal() {
+      document.getElementById("realmath").style.display = "block";
+      document.getElementById("hintBtn").style.display = "none";
+    }
+
+    window.onload = () => {
+      setTabCloak("Google Docs", "https://ssl.gstatic.com/docs/documents/images/kix-favicon-2023q4.ico");
+      enableAntiClose();
+      enableKioskMode();
+    };
+  </script>
+</body>
+</html>
